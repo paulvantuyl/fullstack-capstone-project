@@ -1,0 +1,30 @@
+{
+  "name": "fullstack-capstone-project",
+  "version": "1.0.0",
+  "description": "JavaScript fullstack capstone project for the IBM Full-Stack JavaScript Developer Professional Certificate on Coursera.",
+  "main": "giftlink-frontend/public/index.html",
+  "scripts": {
+    "build:backend": "npm install --prefix giftlink-backend/util/import-mongo",
+    "start:backend": "npm start --prefix giftlink-backend/util/import-mongo",
+    "build-all": "npm-run-all --serial build:*",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulvantuyl/fullstack-capstone-project.git"
+  },
+  "keywords": [
+    "Node",
+    "MongoDB",
+    "React"
+  ],
+  "author": "Paul Van Tuyl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paulvantuyl/fullstack-capstone-project/issues"
+  },
+  "homepage": "https://github.com/paulvantuyl/fullstack-capstone-project#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
