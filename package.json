@@ -6,7 +6,7 @@
   "scripts": {
     "build:backend": "npm install --prefix giftlink-backend/util/import-mongo",
     "start:backend": "npm start --prefix giftlink-backend/util/import-mongo",
-    "build-all": "npm-run-all --serial build:*",
+    "build-all": "npm-run-all build:backend start:backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
