@@ -4,9 +4,10 @@
   "description": "JavaScript fullstack capstone project for the IBM Full-Stack JavaScript Developer Professional Certificate on Coursera.",
   "main": "giftlink-frontend/public/index.html",
   "scripts": {
-    "build:backend": "npm install --prefix giftlink-backend/util/import-mongo",
-    "start:backend": "npm start --prefix giftlink-backend/util/import-mongo",
-    "build-all": "npm-run-all build:backend start:backend",
+    "build:db": "npm install --prefix giftlink-backend/util/import-mongo",
+    "import:db": "npm start --prefix giftlink-backend/util/import-mongo",
+    "build:backend": "npm install --prefix giftlink-backend",
+    "build-all": "npm-run-all build:backend build:db import:db",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
