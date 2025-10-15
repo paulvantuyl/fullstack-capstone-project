@@ -14,19 +14,11 @@ async function connectToDatabase() {
     };
 
     const client = new MongoClient(url);
-    
-    try {
-        await client.connect();
-        dbInstance = client.db(dbname);
 
-        await dbInstance.command({ ping: 1 });
-        console.log("Connected successfully to MongoDB server");
+    await client.connect();
+    dbInstance = client.db(dbName);
 
-        return dbInstance;
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-        throw error;
-    }
+    return dbInstance;
 }
 
 module.exports = connectToDatabase;
