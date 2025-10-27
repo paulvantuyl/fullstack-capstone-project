@@ -4,25 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GiftLink Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="./static/home.css">
 </head>
 <body>
-    <div class="container my-5">
-        <div class="text-center">
-            <!-- Task 1: Add the main heading -->
-                /* insert code here */
-            
-            <!-- Task 2: Add the subheading -->
-                /* insert code here */
-            
-            <!-- Task 3: Add the inspirational quote -->
-                /* insert code here */
-            
-            <!-- Task 4: Add the 'Get Started' button -->
-                /* insert code here */
+    <div class="container text-center my-5 h-100">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-sm-12 col-lg-10">
+                <div class="card blur-behind shadow-lg">
+                    <div class="card-body">
+                        <h1 class="display-1">Welcome to GiftLink</h1>
+                        <p class="lead">Find a place for things you're no longer using.</p>
+                        <figure>
+                            <blockquote class="blockquote">
+                                <p>There is no such thing as 'away'. When we throw anything away, it must go somewhere.</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer">
+                                Annie Leonard, creator of <cite title="Source Title">The Story of Stuff</cite>
+                            </figcaption>
+                        </figure>
+                        <a class="btn btn-primary btn-lg" href="/app" role="button">Get started</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="content position-absolute top-0 start-0">
+        <div id="home" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-touch="false">
+            <div class="carousel-inner vw-100 vh-100">
+                <div class="carousel-item vw-100 vh-100 active">
+                    <img src="./images/home/pexels-orlovamaria-4947139.jpg" class="w-100 h-100 object-fit-cover" alt="Image from Pexels all rights reserved">
+                </div>
+                <div class="carousel-item vw-100 vh-100">
+                    <img src="./images/home/pexels-marta-wave-5876802.jpg" class="w-100 h-100 object-fit-cover" alt="Image from Pexels all rights reserved">
+                </div>
+                <div class="carousel-item vw-100 vh-100 ">
+                    <img src="./images/home/pexels-cottonbro-5090640.jpg" class="w-100 h-100 object-fit-cover" alt="Image from Pexels all rights reserved">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
