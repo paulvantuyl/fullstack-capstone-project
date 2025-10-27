@@ -1,19 +1,46 @@
 /* Task 1: Style the body */
 body {
-    /* insert code here */
-}
-
-/* Task 2: Create a pseudo-element for the background and blur */
-body::before {
-    /* insert code here */
+    font-family: "Noto Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
 }
 
 /* Task 3: Style the content area */
-.content {
-    /* insert code here */
+.content { z-index: -1; }
+.blur-behind {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px); /* for Safari */
+    background-color: rgba(255, 255, 255, 0.5); /* optional: semi-transparent background */
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Task 4: Add styles for headings, paragraphs, and buttons */
-h1, h2, .lead, .btn-primary {
-    /* insert code here */
+/* Typography styles */
+h1, 
+h2,
+.lead,
+[class*="display-"] {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
 }
+
+.btn {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+/* Noto sans styling template */
+/* .noto-sans-<uniquifier> {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+} */
