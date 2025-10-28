@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {urlConfig} from '../../config';
 
 function MainPage() {
@@ -9,17 +9,30 @@ function MainPage() {
     useEffect(() => {
         // Task 1: Write async fetch operation
         // Write your code below this line
+        const fetchGifts = async () => {
+            try {
+                let url = `${urlConfig.backendUrl}/api/gifts/`;
+                let response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                let data = await response.json();
+                setGifts(data);
+            } catch (error) {
+                console.error('Error fetching gifts: ' + error.message);
+            }
+        }
     }, []);
 
     // Task 2: Navigate to details page
     const goToDetailsPage = (productId) => {
-        // Write your code below this line
-
-      };
+        navigate(`/gifts/${productId}`);
+    };
 
     // Task 3: Format timestamp
     const formatDate = (timestamp) => {
-        // Write your code below this line
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
       };
 
     const getConditionClass = (condition) => {
