@@ -48,19 +48,28 @@ function MainPage() {
 
                             {/* // Task 4: Display gift image or placeholder */}
                             {/* // Write your code below this line */}
-
+                            <div className="image-placeholder">
+                                {gift.image ? (
+                                    <img src={gift.image} alt={gift.name} className="card-img-top" />
+                                ) : (
+                                    <div className="image-placeholder">
+                                        <div className="placeholder-glow">No Image Available</div>
+                                    </div>
+                                )}
+                            </div>
+                            
                             <div className="card-body">
 
-                                {/* // Task 5: Display gift image or placeholder */}
+                                {/* // Task 5: Display gift name */}
                                 {/* // Write your code below this line */}
-
+                                <div className="card-title">{gift.name}</div>
                                 <p className={`card-text ${getConditionClass(gift.condition)}`}>
                                 {gift.condition}
                                 </p>
 
-                                {/* // Task 6: Display gift image or placeholder */}
+                                {/* // Task 6: Display formatted date */}
                                 {/* // Write your code below this line */}
-                                
+                                <p className="card-text small text-secondary">{formatDate(gift.date_added)}</p>
 
                                 <button onClick={() => goToDetailsPage(gift.id)} className="btn btn-primary">
                                     View Details
