@@ -43,10 +43,6 @@ body,
   color: #28a745; /* Fresh green */
 }
 
-.container {
-  padding: 2rem 15%; /* Adds more space on the sides */
-}
-
 .row {
   justify-content: space-around; /* Adds space between cards */
 }

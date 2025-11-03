@@ -47,7 +47,7 @@ function MainPage() {
         <div className="container mt-5">
             <div className="row">
                 {gifts.map((gift) => (
-                    <div key={gift.id} className="col-md-4 mb-4">
+                    <div key={gift.id} className="col-md-6 col-lg-4">
                         <div className="card product-card">
 
                             {/* // Task 4: Display gift image or placeholder */}
@@ -56,7 +56,7 @@ function MainPage() {
                                 {gift.image ? (
                                     <img src={gift.image} alt={gift.name} className="card-img-top" />
                                 ) : (
-                                    <div className="image-placeholder">
+                                    <div className="no-image-available">
                                         <div className="placeholder-glow">No Image Available</div>
                                     </div>
                                 )}
@@ -68,7 +68,7 @@ function MainPage() {
                                 {/* // Write your code below this line */}
                                 <h5 className="card-title">{gift.name}</h5>
                                 <p className={`card-text ${getConditionClass(gift.condition)}`}>
-                                    <strong>Condition:</strong>{gift.condition}
+                                    <strong>Condition: </strong>{gift.condition}
                                 </p>
 
                                 {/* // Task 6: Display formatted date */}
