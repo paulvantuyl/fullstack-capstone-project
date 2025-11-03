@@ -21,7 +21,9 @@ function MainPage() {
             } catch (error) {
                 console.error('Error fetching gifts: ' + error.message);
             }
-        }
+        };
+        
+        fetchGifts();
     }, []);
 
     // Task 2: Navigate to details page
