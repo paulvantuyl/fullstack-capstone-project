@@ -7,9 +7,10 @@
     "build:db": "npm install --prefix giftlink-backend/util/import-mongo",
     "import:db": "npm start --prefix giftlink-backend/util/import-mongo",
     "build:backend": "npm install --prefix giftlink-backend",
-    "build:frontend": "npm install --prefix giftlink-frontend",
+    "build:frontend": "npm install --prefix giftlink-frontend && npm run build --prefix giftlink-frontend",
     "build-all": "npm-run-all build:backend build:db build:frontend",
-    "start:backend": "node giftlink-backend/app.js",
+    "start:backend": "cd giftlink-backend && node app.js",
+    "start:frontend": "npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
