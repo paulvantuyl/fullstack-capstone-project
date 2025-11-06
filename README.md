@@ -17,4 +17,4 @@ This is my JavaScript Fullstack Capstone Project for the IBM Full-Stack JavaScri
 - Run `npm install` and then `npm run build-all` from the root directory.
 - Run `npm run start:backend` to start the backend service.
 - Use the `.env` template in `giftlink-frontend/.env.sample` to create a `.env` file with the backend connection URL, which should be `http://localhost:3060`.
-- Open a new terminal and run `npm start:frontend` to start the frontend service.
+- Open a new terminal and run `npm run start:frontend` to start the frontend service.
