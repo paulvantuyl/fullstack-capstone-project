@@ -40,7 +40,7 @@ function MainPage() {
         // Write your code below this line
         const date = new Date(timestamp * 1000);
         return date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
-      };
+    };
 
     const getConditionClass = (condition) => {
         return condition === "New" ? "success" : "warning";
@@ -54,16 +54,6 @@ function MainPage() {
                         <Card className="mb-4">
                             {/* // Task 4: Display gift image or placeholder */}
                             {/* // Write your code below this line */}
-                            {/* <div className="image-placeholder">
-                                {gift.image ? (
-                                    <img src={gift.image} alt={gift.name} className="card-img-top" />
-                                ) : (
-                                    <div className="no-image-available">
-                                        <div className="placeholder-glow">No Image Available</div>
-                                    </div>
-                                )}
-                            </div> */}
-
                             <Card.Img 
                                 variant="top"
                                 src={
