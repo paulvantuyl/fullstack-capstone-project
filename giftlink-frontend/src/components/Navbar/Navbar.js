@@ -22,6 +22,7 @@ export default function NavbarComponent() {
                             window.location.reload();
                         }}>Home</Nav.Link>
                         <Nav.Link onClick={() => navigate('/app')}>Gifts</Nav.Link>
+                        <Nav.Link onClick={() => navigate('/app/search')}>Search</Nav.Link>
                     </Nav>
 
                     <Form className="d-flex">
