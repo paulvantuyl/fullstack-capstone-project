@@ -7,6 +7,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import Navbar from './components/Navbar/Navbar';
 import DetailsPage from './components/DetailsPage/DetailsPage';
 import SearchPage from './components/SearchPage/SearchPage';
+import '@fontsource-variable/noto-sans';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';

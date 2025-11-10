@@ -11,7 +11,49 @@ html {
 /* General background color */
 body,
 .page-background {
-  background-color: #f4f4f4; /* Light grey */
+    background-color: #f4f4f4; /* Light grey */
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+/* Typography styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6,
+.navbar-brand,
+.lead,
+[class*="display-"] {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+.btn {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
 }
 
 /* Text color */
@@ -30,10 +72,6 @@ body,
 .btn-success {
   color: #28a745; /* Fresh green */
 }
-
-/* .row {
-  justify-content: space-around;
-} */
 
 .product-card {
   margin: 1rem 0; /* Adds space above and below each card */
@@ -75,13 +113,6 @@ body,
   border-top-right-radius: 0.25rem;
 }
 
-/* .card-body {
-  padding: 1rem;
-  flex-grow: 1; 
-  display: flex;
-  flex-direction: column; 
-} */
-
 .date-added {
   margin-top: auto; /* Pushes everything else to the top, and this to the bottom */
 }
@@ -101,9 +132,8 @@ body,
 }
 
 /* Customize the navbar brand and links */
-.navbar-brand, .nav-link {
+.nav-link {
   font-size: 1.2rem; /* Increase font size */
-  font-weight: 500; /* Medium weight for better visibility */
 }
 
 /* Increase the font size and weight of nav-item */
