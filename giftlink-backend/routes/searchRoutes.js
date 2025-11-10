@@ -12,15 +12,15 @@ router.get('/', async (req, res, next) => {
         let query = {};
 
         // Searching by name, return result if name is provided and not empty
-        if (req.query.name.trim() !== '') {
+        if (req.query.name && req.query.name.trim() !== '') {
             query.name = { $regex: req.query.name, $options: 'i' }; // Using regex for partial match, case-insensitive
         }
 
         // Other filters
-        if (req.query.category) {
+        if (req.query.category && req.query.category !== 'All') {
             query.category = req.query.category;
         }
-        if (req.query.condition) {
+        if (req.query.condition && req.query.condition !== 'All') {
             query.condition = req.query.condition;
         }
         if (req.query.age_years) {
@@ -28,7 +28,7 @@ router.get('/', async (req, res, next) => {
         }
 
         // Fetch filtered gifts
-        await collection.find(collection).toArray();
+        const gifts = await collection.find(query).toArray();
 
         res.json(gifts);
     } catch (e) {
