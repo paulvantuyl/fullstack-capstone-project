@@ -26,10 +26,10 @@ export default function NavbarComponent() {
                     </Nav>
 
                     <Form className="d-flex">
-                        <Button variant="outline-dark me-2" onClick={() => navigate('/app/register')}>
+                        <Button variant="outline-primary me-2" onClick={() => navigate('/app/register')}>
                             Register
                         </Button>
-                        <Button variant="dark" onClick={() => navigate('/app/login')}>
+                        <Button variant="outline-primary" onClick={() => navigate('/app/login')}>
                             Login
                         </Button>
                     </Form>

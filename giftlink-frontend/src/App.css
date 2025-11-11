@@ -1,4 +1,3 @@
-
 html {
   overflow-y: scroll;
 }
@@ -48,6 +47,8 @@ h6,
     font-variation-settings: "wdth" 100;
 }
 
+/* Button styles */
+
 .btn {
     font-family: "Noto Sans", sans-serif;
     font-optical-sizing: auto;
@@ -55,6 +56,8 @@ h6,
     font-style: normal;
     font-variation-settings: "wdth" 100;
 }
+
+/* Gift card components */
 
 /* Text color */
 .card-title,
@@ -130,6 +133,8 @@ h6,
 .list-group-item-warning {
   color: #ffc107; /* Yellow text color for older items */
 }
+
+/* Navigation customization */
 
 /* Customize the navbar brand and links */
 .nav-link {

@@ -47,7 +47,7 @@ function MainPage() {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-4">
             <div className="row">
                 {gifts.map((gift) => (
                     <div key={gift.id} className="col-md-6 col-lg-4">
@@ -81,12 +81,15 @@ function MainPage() {
                                     </p>
 
                                 </Card.Text>
-                                <Button 
-                                    onClick={() => goToDetailsPage(gift.id)} variant="info"
+                            </Card.Body>
+                            <Card.Footer className="p-3">
+                                <Button
+                                    onClick={() => goToDetailsPage(gift.id)}
+                                    variant="secondary"
                                 >
                                     View Details
                                 </Button>
-                            </Card.Body>
+                            </Card.Footer>
                         </Card>
                     </div>
                 ))}
