@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "GiftLink",
+  "name": "A place to find a place for things you're no longer using.",
   "icons": [
     {
       "src": "favicon.ico",

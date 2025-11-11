@@ -9,6 +9,7 @@ import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 import './SearchPage.css';
 
@@ -93,9 +94,18 @@ function SearchPage() {
                                 <h5 className="visually-hidden">Filters</h5>
                                     <Stack direction="vertical" gap={3}>
                                         {/* Task 7: Add text input field for search criteria*/}
-                                        <Form.Group controlId="searchQuery" className="flex-grow-1">
+                                        <Form.Group controlId="searchQuery" className="my-2 flex-grow-1">
                                             <Form.Label className="visually-hidden">Search</Form.Label>
-                                            <Form.Control type="text" placeholder="Search gifts" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                                            <InputGroup>
+                                                <InputGroup.Text><i className="bi bi-search"></i></InputGroup.Text>
+                                                <Form.Control
+                                                    type="search"
+                                                    size="lg"
+                                                    placeholder="Search gifts"
+                                                    value={searchQuery}
+                                                    onChange={e => setSearchQuery(e.target.value)}
+                                                />
+                                            </InputGroup>
                                         </Form.Group>
 
                                         <Form.Group controlId="categorySelect" className="flex-grow-1">
@@ -123,7 +133,14 @@ function SearchPage() {
                                                     ? 'Less than 1 year old'
                                                     : `Less than ${ageRange} years old`}
                                             </Form.Label>
-                                            <Form.Range min={1} Rang max={10} value={ageRange} onChange={e => setAgeRange(e.target.value)} />
+                                            <Form.Range 
+                                                min={1} 
+                                                max={10} 
+                                                value={ageRange}
+                                                step={1} 
+                                                onChange={e => setAgeRange(e.target.value)}
+                                                className="form-range-custom"
+                                            />
                                         </Form.Group>
                                         {/* Task 8: Implement search button with onClick event to trigger search:*/}
                                         <Button
@@ -148,7 +165,7 @@ function SearchPage() {
                     <Row className="search-results">
                         {searchResults.length > 0 ? (
                             searchResults.map(searchResult => (
-                                <Col key={searchResult.id} md={12} lg={4}>
+                                <Col key={searchResult.id} md={12} lg={6} className="d-flex align-items-stretch">
                                 <Card key={searchResult.id} className="search-result-card mb-3">
                                     <Card.Img 
                                         variant="top"
@@ -158,10 +175,10 @@ function SearchPage() {
                                     />
                                     <Card.Body>
                                         <Card.Title>{searchResult.name}</Card.Title>
-                                        <Card.Text className="description-text">{searchResult.description.slice(0, 100)}</Card.Text>
+                                            <Card.Text className="description-text">{searchResult.description.slice(0, 100)}</Card.Text>
                                     </Card.Body>
                                     <Card.Footer className="p-3">
-                                        <Button variant="info" onClick={() => goToDetailsPage(searchResult.id)}>View More</Button>
+                                        <Button variant="secondary" onClick={() => goToDetailsPage(searchResult.id)}>View More</Button>
                                     </Card.Footer>
                                 </Card>
                                 </Col>

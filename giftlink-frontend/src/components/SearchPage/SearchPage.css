@@ -1,12 +1,15 @@
-.description-text {
-    min-height: 6rem;
+.card-footer {
+    background-color: #EFE9E3 !important;
 }
 
-/* Additional placeholders for tasks 6 to 10 */
 .image-placeholder {
   width: 100%;
   height: 200px; /* Fixed height, adjust as needed */
   position: relative; /* Set a reference for absolute positioned children */
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
+}
+
+.form-range-custom {
+    margin-bottom: 1rem;
 }
