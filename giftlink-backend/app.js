@@ -27,6 +27,9 @@ const giftroutes = require('./routes/giftRoutes');
 // Search API
 const searchRoutes = require('./routes/searchRoutes');
 
+// Auth API
+const authRoutes = require('./routes/authRoutes');
+
 const pinoHttp = require('pino-http');
 const logger = require('./logger');
 
@@ -35,6 +38,7 @@ app.use(pinoHttp({ logger }));
 // Use Routes
 app.use('/api/gifts', giftroutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/auth', authRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
