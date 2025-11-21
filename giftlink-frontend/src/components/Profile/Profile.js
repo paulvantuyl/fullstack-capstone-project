@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import './Profile.css'
 import {urlConfig} from '../../config';
 import { useAppContext } from '../../context/AuthContext';
@@ -12,14 +12,15 @@ const Profile = () => {
 
  const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     const authtoken = sessionStorage.getItem("auth-token");
     if (!authtoken) {
-      navigate("/app/login");
+      navigate("/app/login", { state: { from: location.pathname } });
     } else {
       fetchUserProfile();
     }
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   const fetchUserProfile = async () => {
     try {
@@ -59,7 +60,7 @@ const handleSubmit = async (e) => {
     const email = sessionStorage.getItem("email");
 
     if (!authtoken || !email) {
-      navigate("/app/login");
+      navigate("/app/login", { state: { from: location.pathname } });
       return;
     }
 
