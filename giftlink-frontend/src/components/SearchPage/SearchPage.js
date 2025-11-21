@@ -25,6 +25,12 @@ function SearchPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const authToken = sessionStorage.getItem('auth-token');
+        if (!authToken) {
+            navigate('/app/search');
+            console.log('No authentication token found');
+        }
+
         // fetch all gifts
         const fetchGifts = async () => {
             try {
@@ -42,7 +48,7 @@ function SearchPage() {
         };
 
         fetchGifts();
-    }, []);
+    }, [navigate]);
 
     // Task 2. Fetch search results from the API based on user inputs.
     const handleSearch = async (e) => {
@@ -74,9 +80,9 @@ function SearchPage() {
         }
     };
 
-    const goToDetailsPage = (productId) => {
+    const goToDetailsPage = (giftId) => {
         // Task 6. Enable navigation to the details page of a selected gift.
-        navigate(`/app/product/${productId}`);
+        navigate(`/app/gifts/${giftId}`);
     };
 
     return (
