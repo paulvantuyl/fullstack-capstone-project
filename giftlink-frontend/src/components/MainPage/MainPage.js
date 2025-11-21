@@ -10,6 +10,12 @@ function MainPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const authToken = sessionStorage.getItem('auth-token');
+        if (!authToken) {
+            navigate('/app');
+            console.log('No authentication token found');
+        }
+
         // Task 1: Write async fetch operation
         // Write your code below this line
         const fetchGifts = async () => {
@@ -27,13 +33,13 @@ function MainPage() {
         };
         
         fetchGifts();
-    }, []);
+    }, [navigate]);
 
     // Task 2: Navigate to details page
-    const goToDetailsPage = (productId) => {
+    const goToDetailsPage = (giftId) => {
         // Write your code below this line
-        navigate(`/app/product/${productId}`);
-      };
+        navigate(`/app/gifts/${giftId}`);
+    };
 
     // Task 3: Format timestamp
     const formatDate = (timestamp) => {
@@ -73,13 +79,13 @@ function MainPage() {
                                 <Card.Title>{gift.name}</Card.Title>
                                 <Card.Text>
                                     <Badge bg={getConditionClass(gift.condition)}>{gift.condition}</Badge>
-                                
+                                </Card.Text>
+                                <Card.Text>
                                     {/* // Task 6: Display formatted date */}
                                     {/* // Write your code below this line */}
-                                    <p className="card-text small text-secondary">
+                                    <span className="small text-secondary">
                                         {formatDate(gift.date_added)}
-                                    </p>
-
+                                    </span>
                                 </Card.Text>
                             </Card.Body>
                             <Card.Footer className="p-3">

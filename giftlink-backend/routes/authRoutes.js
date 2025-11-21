@@ -1,15 +1,14 @@
 const express = require('express');
 const app = express();
-const bcrypt = require('bcryptjs');
+const bcryptjs   = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const connectToDatabase = require('../models/db');
 const router = express.Router();
 const dotenv = require('dotenv');
-const pino = require('pino');
 
 //Step 1 - Task 3: Create a Pino logger instance
-const logger = pino();
+const pinoLogger = require('../logger');
 
 dotenv.config();
 
@@ -53,10 +52,11 @@ router.post('/register', async (req, res) => {
         };
         const authtoken = jwt.sign(payload, JWT_SECRET);
         
-        logger.info('User registered successfully');
+        pinoLogger.info('User registered successfully');
         res.json({ authtoken, email });
-    } catch (e) {
-        return res.status(500).send('Internal server error');
+    } catch (error) {
+        pinoLogger.error('Error registering user: ' + error.message);
+        return res.status(500).json({ error: error.message || 'Internal server error!' });
     }
 });
 

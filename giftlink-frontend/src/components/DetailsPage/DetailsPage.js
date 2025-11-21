@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {urlConfig} from '../../config';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,7 +11,8 @@ import Alert from 'react-bootstrap/Alert';
 
 function DetailsPage() {
     const navigate = useNavigate();
-    const { productId } = useParams();
+    const location = useLocation();
+    const { id } = useParams();
     const [gift, setGift] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -22,10 +23,10 @@ function DetailsPage() {
     };
 
 	useEffect(() => {
-        const authenticationToken = sessionStorage.getItem('auth-token');
-        if (!authenticationToken) {
+        const authToken = sessionStorage.getItem('auth-token');
+        if (!authToken) {
 			// Task 1: Check for authentication and redirect
-            navigate('/app/login');
+            navigate('/app/login', { state: { from: location.pathname } });
             console.log('No authentication token found');
         }
 
@@ -33,7 +34,7 @@ function DetailsPage() {
         const fetchGift = async () => {
             try {
 				// Task 2: Fetch gift details
-                const response = await fetch(`${urlConfig.backendUrl}/api/gifts/${productId}`);
+                const response = await fetch(`${urlConfig.backendUrl}/api/gifts/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -51,7 +52,7 @@ function DetailsPage() {
 		// Task 3: Scroll to top on component mount
 		window.scrollTo(0, 0);
 
-    }, [navigate, productId]);
+    }, [navigate, id, location.pathname]);
 
 
     const handleBackClick = () => {
