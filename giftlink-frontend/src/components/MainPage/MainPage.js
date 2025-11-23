@@ -10,14 +10,6 @@ function MainPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const authToken = sessionStorage.getItem('auth-token');
-        if (!authToken) {
-            navigate('/app');
-            console.log('No authentication token found');
-        }
-
-        // Task 1: Write async fetch operation
-        // Write your code below this line
         const fetchGifts = async () => {
             try {
                 let url = `${urlConfig.backendUrl}/api/gifts/`;
