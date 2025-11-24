@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AuthContext';
-import { urlConfig } from '../../config';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -12,24 +11,46 @@ import Button from 'react-bootstrap/Button';
 export default function NavbarComponent() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { isLoggedIn, setIsLoggedIn, userName,setUserName } = useAppContext();
-
+    const { isLoggedIn, setIsLoggedIn, userName, setUserName } = useAppContext();
+    
+    // Sync the logged in state and username with the session storage
     useEffect(() => {
         const authTokenFromSession = sessionStorage.getItem('auth-token');
         const nameFromSession = sessionStorage.getItem('name');
+        
         if (authTokenFromSession) {
-            if (isLoggedIn && nameFromSession) {
+            // If we have a token, sync the logged in state
+            if (!isLoggedIn) {
+                setIsLoggedIn(true);
+            }
+            // Set username if we have it
+            if (nameFromSession && nameFromSession !== userName) {
                 setUserName(nameFromSession);
             }
         } else {
-            sessionStorage.removeItem('auth-token');
-            sessionStorage.removeItem('name');
-            sessionStorage.removeItem('email');
-            setIsLoggedIn(false);
-            setUserName('');
+            // Clear state if no token is found
+            if (isLoggedIn) {
+                setIsLoggedIn(false);
+            }
+            if (userName) {
+                setUserName('');
+            }
+        }
+    }, [isLoggedIn, setIsLoggedIn, setUserName, userName]);
+    
+    // Separate effect to handle redirects when token is missing on protected routes
+    useEffect(() => {
+        const authTokenFromSession = sessionStorage.getItem('auth-token');
+        const isPublicPage = location.pathname.includes('/login') ||
+            location.pathname.includes('/register') ||
+            location.pathname.includes('/app') ||
+            location.pathname === '/';
+
+        // Only redirect if there's no token and we're on a protected route
+        if (!authTokenFromSession && !isPublicPage) {
             navigate('/app/login', { state: { from: location.pathname } });
         }
-    }, [isLoggedIn, setIsLoggedIn, setUserName, navigate, location.pathname]);
+    },[location.pathname, navigate]);
 
     const handleLogout = () => {
         sessionStorage.removeItem('auth-token');

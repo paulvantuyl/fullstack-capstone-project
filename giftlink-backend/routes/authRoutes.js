@@ -7,26 +7,19 @@ const connectToDatabase = require('../models/db');
 const router = express.Router();
 const dotenv = require('dotenv');
 
-//Step 1 - Task 3: Create a Pino logger instance
+// Create a Pino logger instance
 const pinoLogger = require('../logger');
 
 dotenv.config();
 
-//Step 1 - Task 4: Create JWT secret
+// Create JWT secret
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// Register endpoint
 router.post('/register', async (req, res) => {
     try {
-        // Task 1: Connect to `giftsdb` in MongoDB through `connectToDatabase` in `db.js`
-        // {{insert code here}}
         const db = await connectToDatabase();
-        
-        // Task 2: Access MongoDB collection
-        // {{insert code here}}
         const collection = db.collection('users');
-
-        //Task 3: Check for existing email
-        // {{insert code here}}
         const existingEmail = await collection.findOne({ email: req.body.email });
         if (existingEmail) {
             return res.status(400).json({ error: 'Email already exists' });
@@ -36,7 +29,7 @@ router.post('/register', async (req, res) => {
         const hash = await bcryptjs.hash(req.body.password, salt);
         const email = req.body.email;
 
-        // {{insert code here}} //Task 4: Save user details in database
+         // Save user details in database
         const newUser = await collection.insertOne({
             email: req.body.email,
             password: hash,
@@ -44,7 +37,7 @@ router.post('/register', async (req, res) => {
             lastName: req.body.lastName,
         });
         
-        // {{insert code here}} //Task 5: Create JWT authentication with user._id as payload
+         // Create JWT authentication with user._id as payload
         const payload = {
             user: {
                 id: newUser.insertedId,
@@ -56,6 +49,43 @@ router.post('/register', async (req, res) => {
         res.json({ authtoken, email });
     } catch (error) {
         pinoLogger.error('Error registering user: ' + error.message);
+        return res.status(500).json({ error: error.message || 'Internal server error!' });
+    }
+});
+
+// Login endpoint
+router.post('/login', async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const collection = db.collection('users');
+        const user = await collection.findOne({ email: req.body.email });
+
+        // Check if the password matches the encrypyted password and send appropriate message on mismatch
+        if (user) {
+            let result = await bcryptjs.compare(req.body.password, user.password);
+            
+            if (!result) {
+                pinoLogger.error('Password mismatch');
+                return res.status(400).json({ error: 'Invalid email or password' });
+            }
+            let payload = {
+                user: {
+                    id: user._id.toString(),
+                },
+            };
+
+            const userName = user.firstName;
+            const userEmail = user.email;
+            const authtoken = jwt.sign(payload, JWT_SECRET);
+
+            pinoLogger.info('User logged in successfully');
+            return res.status(200).json({ authtoken, userEmail, userName });
+        } else {
+            pinoLogger.error('User not found');
+            return res.status(400).json({ error: 'User not found' });
+        }
+    } catch (error) {
+        pinoLogger.error('Error logging in user: ' + error.message);
         return res.status(500).json({ error: error.message || 'Internal server error!' });
     }
 });
