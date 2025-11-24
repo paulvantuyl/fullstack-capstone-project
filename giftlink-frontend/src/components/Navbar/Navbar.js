@@ -66,42 +66,41 @@ export default function NavbarComponent() {
     }
 
     return (
-        <Navbar expand="lg" className="navbar bg-body-tertiary">
+        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
                 <Navbar.Brand onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>GiftLink</Navbar.Brand>
-
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link onClick={() => {
+                        <Nav.Link eventKey="1" onClick={() => {
                             navigate('/home.html');
                             window.location.reload();
                         }}>Home</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/app')}>Gifts</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/app/search')}>Search</Nav.Link>
+                        <Nav.Link eventKey="2" onClick={() => navigate('/app')}>Gifts</Nav.Link>
+                        <Nav.Link eventKey="3" onClick={() => navigate('/app/search')}>Search</Nav.Link>
                     </Nav>
 
-                    <Form className="d-flex">
+                    <Nav>
                         {isLoggedIn ? (
                             <>
-                                <Button variant="link me-2" onClick={profileSection}>
+                                <Nav.Link eventKey="4" onClick={profileSection}>
                                     Welcome, {userName}
-                                </Button>
-                                <Button variant="outline-primary" onClick={handleLogout}>
+                                </Nav.Link>
+                                <Nav.Link eventKey="5" onClick={handleLogout}>
                                     Logout
-                                </Button>
+                                </Nav.Link>
                             </>
                         ) : (
                             <>
-                                <Button variant="outline-primary me-2" onClick={() => navigate('/app/login')}>
+                                <Nav.Link eventKey="6" onClick={() => navigate('/app/login')}>
                                     Login
-                                </Button>
-                                <Button variant="outline-primary" onClick={() => navigate('/app/register')}>
+                                </Nav.Link>
+                                <Nav.Link eventKey="7" onClick={() => navigate('/app/register')}>
                                     Register
-                                </Button>
+                                </Nav.Link>
                             </>
                         )}
-                    </Form>
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
