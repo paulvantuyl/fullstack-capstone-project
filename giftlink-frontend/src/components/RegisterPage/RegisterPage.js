@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { urlConfig } from '../../config.js';
 import { useAppContext } from '../../context/AuthContext.js';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -14,7 +14,6 @@ import Stack from 'react-bootstrap/Stack';
 import Alert from 'react-bootstrap/Alert';
 
 function RegisterPage() {
-    const authToken = sessionStorage.getItem('auth-token');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
