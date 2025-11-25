@@ -12,6 +12,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Alert from 'react-bootstrap/Alert';
+import Fade from 'react-bootstrap/Fade';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -20,6 +21,7 @@ function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { setIsLoggedIn } = useAppContext();
+    const bearerToken = sessionStorage.getItem('bearer-token');
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -35,6 +37,7 @@ function LoginPage() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': bearerToken ? `Bearer ${bearerToken}` : '',
                 },
                 body: JSON.stringify({
                     email: email,
@@ -56,7 +59,12 @@ function LoginPage() {
                 // Redirect to the intended destination or '/app' if none
                 navigate(from, { replace: true });
             } else {
-                setShowErr(jsonData.error || 'Login failed. Please try again.');
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                setShowErr(jsonData.error || 'Incorrect email or password. Please try again.');
+                setTimeout(() => {
+                    setShowErr('');
+                }, 4000);
             }
         } catch (error) {
             console.log("Error fetching details: " + error.message);
@@ -72,9 +80,6 @@ function LoginPage() {
                         <Card.Body>
                             <h2 className="text-center mb-4">Log in to GiftLink</h2>
                             <Stack direction="vertical" gap={3}>
-                                {showErr && (
-                                    <Alert variant="danger">{showErr}</Alert>
-                                )}
                                 <Form onSubmit={handleLogin}>
                                     <Stack direction="vertical" gap={3}>
                                         <Form.Group controlId="email">
@@ -85,6 +90,15 @@ function LoginPage() {
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control type="password" value={password} onChange={(error) => setPassword(error.target.value)} />
                                         </Form.Group>
+                                        <Fade in={showErr}>
+                                            <div>
+                                                {showErr && (
+                                                    <Alert variant="danger" className="text-center">
+                                                        {showErr}
+                                                    </Alert>
+                                                )}
+                                            </div>
+                                        </Fade>
                                         <Stack direction="horizontal" gap={2} className="mt-3">
                                             <Button variant="primary" type="submit">Log in</Button>
                                             <div className="ms-auto align-middle">
