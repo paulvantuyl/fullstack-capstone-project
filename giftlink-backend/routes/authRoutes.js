@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const bcryptjs   = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
@@ -86,6 +85,53 @@ router.post('/login', async (req, res) => {
         }
     } catch (error) {
         pinoLogger.error('Error logging in user: ' + error.message);
+        return res.status(500).json({ error: error.message || 'Internal server error!' });
+    }
+});
+
+// Update endpoint
+router.put('/update', async (req, res) => {
+    // Validate the input using `validationResult` and return approiate message if there is an error.
+    const errors = validationResult(req);
+
+    // Check if `email` is present in the header and throw an appropriate error message if not present.
+    if (!errors.isEmpty()) {
+        pinoLogger.error('Validation error: ' + errors.array());
+        return res.status(400).json({ error: errors.array() });
+    }
+
+    try {        
+        const email = req.headers.email;
+        if (!email) {
+            pinoLogger.error('Email not found in the request headers');
+            return res.status(400).json({ error: 'Email not found in the request headers' });
+        }
+        
+        // Connect to MongoDB
+        const db = await connectToDatabase();
+        const collection = db.collection('users');
+
+        // Find user credentials in database
+        const existingUser = await collection.findOne({ email });
+
+        existingUser.updatedAt = new Date();
+
+        // Update user credentials in database
+        const updatedUser = await collection.findOneAndUpdate(
+            { email },
+            { $set: { existingUser }},
+            { returnDocument: 'after' },
+        );
+
+        // Create JWT authentication using secret key from .env file
+        const payload = {
+            user: {
+                id: existingUser._id.toString(),
+            },
+        };
+        const authtoken = jwt.sign(payload, JWT_SECRET);
+        res.json({ authtoken });
+    } catch (error) {
         return res.status(500).json({ error: error.message || 'Internal server error!' });
     }
 });
