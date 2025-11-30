@@ -78,7 +78,13 @@ router.post('/login', async (req, res) => {
             const authtoken = jwt.sign(payload, JWT_SECRET);
 
             pinoLogger.info('User logged in successfully');
-            return res.status(200).json({ authtoken, userEmail, userName });
+            return res.status(200).json({
+                authtoken, 
+                userEmail, 
+                userName,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            });
         } else {
             pinoLogger.error('User not found');
             return res.status(400).json({ error: 'User not found' });
@@ -90,50 +96,95 @@ router.post('/login', async (req, res) => {
 });
 
 // Update endpoint
-router.put('/update', async (req, res) => {
-    // Validate the input using `validationResult` and return approiate message if there is an error.
-    const errors = validationResult(req);
-
-    // Check if `email` is present in the header and throw an appropriate error message if not present.
-    if (!errors.isEmpty()) {
-        pinoLogger.error('Validation error: ' + errors.array());
-        return res.status(400).json({ error: errors.array() });
-    }
-
-    try {        
-        const email = req.headers.email;
-        if (!email) {
-            pinoLogger.error('Email not found in the request headers');
-            return res.status(400).json({ error: 'Email not found in the request headers' });
+router.put('/update', 
+    [
+        body('firstName').optional().trim().notEmpty(),
+        body('lastName').optional().trim().notEmpty(),
+        body('name').optional().trim().notEmpty(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+    
+        if (!errors.isEmpty()) {
+            pinoLogger.error('Validation error: ' + JSON.stringify(errors.array()));
+            return res.status(400).json({ error: errors.array() });
         }
-        
-        // Connect to MongoDB
-        const db = await connectToDatabase();
-        const collection = db.collection('users');
 
-        // Find user credentials in database
-        const existingUser = await collection.findOne({ email });
+        try {
+            // Verify JWT token
+            const authtoken = req.headers.authorization?.split(' ')[1];
+            if (!authtoken) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
 
-        existingUser.updatedAt = new Date();
+            let decoded;
+            try {
+                decoded = jwt.verify(authtoken, JWT_SECRET);
+            } catch (error) {
+                pinoLogger.error('Invalid JWT token: ' + error.message);
+                return res.status(401).json({ error: 'Invalid JWT token' });
+            }
 
-        // Update user credentials in database
-        const updatedUser = await collection.findOneAndUpdate(
-            { email },
-            { $set: { existingUser }},
-            { returnDocument: 'after' },
-        );
+            const email = req.headers.email;
+            if (!email) {
+                pinoLogger.error('Email not found in the request headers');
+                return res.status(400).json({ error: 'Email not found in the request headers' });
+            }
+            
+            const db = await connectToDatabase();
+            const collection = db.collection('users');
 
-        // Create JWT authentication using secret key from .env file
-        const payload = {
-            user: {
-                id: existingUser._id.toString(),
-            },
-        };
-        const authtoken = jwt.sign(payload, JWT_SECRET);
-        res.json({ authtoken });
-    } catch (error) {
-        return res.status(500).json({ error: error.message || 'Internal server error!' });
+            const existingUser = await collection.findOne({ email });
+
+            if (!existingUser) {
+                pinoLogger.error('User not found');
+                return res.status(400).json({ error: 'User not found' });
+            }
+
+            // Verify token belongs to current user
+            if (decoded.user.id !== existingUser._id.toString()) {
+                return res.status(403).json({ error: 'Unauthorized access' });
+            }
+
+            // Build update object from request body
+            const updateFields = {};
+            if (req.body.firstName) updateFields.firstName = req.body.firstName;
+            if (req.body.lastName) updateFields.lastName = req.body.lastName;
+            if (req.body.name) updateFields.name = req.body.name;
+            updateFields.updatedAt = new Date();
+
+            // Update user credentials in database
+            const updatedUser = await collection.findOneAndUpdate(
+                { email },
+                { $set: updateFields },
+                { returnDocument: 'after' }
+            );
+
+            if (!updatedUser) {
+                return res.status(500).json({ error: 'Failed to update user' });
+            }
+
+            // Create JWT authentication using secret key from .env file
+            const payload = {
+                user: {
+                    id: existingUser._id.toString(),
+                },
+            };
+            const newAuthToken = jwt.sign(payload, JWT_SECRET);
+            res.json({
+                authtoken: newAuthToken,
+                user: {
+                    email: updatedUser.email,
+                    firstName: updatedUser.firstName,
+                    lastName: updatedUser.lastName,
+                    name: updatedUser.name,
+                },
+            });
+        } catch (error) {
+            pinoLogger.error('Error updating user: ' + error.message);
+            return res.status(500).json({ error: error.message || 'Internal server error!' });
+        }
     }
-});
+);
 
 module.exports = router;

@@ -55,6 +55,12 @@ function LoginPage() {
                 if (jsonData.userName) {
                     sessionStorage.setItem('name', jsonData.userName);
                 }
+                if (jsonData.firstName) {
+                    sessionStorage.setItem('firstName', jsonData.firstName);
+                }
+                if (jsonData.lastName) {
+                    sessionStorage.setItem('lastName', jsonData.lastName);
+                }
                 setIsLoggedIn(true);
                 // Redirect to the intended destination or '/app' if none
                 navigate(from, { replace: true });

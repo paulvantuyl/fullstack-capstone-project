@@ -7,6 +7,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import Navbar from './components/Navbar/Navbar';
 import DetailsPage from './components/DetailsPage/DetailsPage';
 import SearchPage from './components/SearchPage/SearchPage';
+import Profile from './components/Profile/Profile';
 
 import '@fontsource-variable/noto-sans';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,6 +27,7 @@ function App() {
         <Route path="/app/login" element={<LoginPage />} />
         <Route path="/app/gifts/:id" element={<DetailsPage />} />
         <Route path="/app/search" element={<SearchPage />} />
+        <Route path="/app/profile" element={<Profile />} />
       </Routes>
   </>
   );
