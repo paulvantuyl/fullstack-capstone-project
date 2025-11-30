@@ -12,7 +12,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Fade from 'react-bootstrap/Fade';
-// import './Profile.css'
 
 const Profile = () => {
 	const [userDetails, setUserDetails] = useState({});
@@ -37,17 +36,28 @@ const Profile = () => {
 	const fetchUserProfile = async () => {
 		try {
 			const authtoken = sessionStorage.getItem('auth-token');
-			const email = sessionStorage.getItem('email');
-			const name=sessionStorage.getItem('name');
-			if (name || authtoken) {
-				const storedUserDetails = {
-					name: name,
-					email:email
-				};
 
-				setUserDetails(storedUserDetails);
-				setUpdatedDetails(storedUserDetails);
-			}
+            // If no authtoken, don't proceed
+            if (!authtoken) {
+                return;
+            }
+
+			const email = sessionStorage.getItem('email');
+			const firstName = sessionStorage.getItem('firstName') || '';
+			const lastName = sessionStorage.getItem('lastName') || '';
+			const name = sessionStorage.getItem('name') || '';
+            
+            const storedUserDetails = {
+                firstName: firstName,
+                lastName: lastName,
+                name: name,
+                email:email
+            };
+
+            setUserDetails(storedUserDetails);
+            setUpdatedDetails(storedUserDetails);
+			// if (firstName || lastName || name || authtoken) {
+			// }
 		} catch (error) {
 			console.error(error);
 			// Handle error case
@@ -66,6 +76,7 @@ const Profile = () => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+        setChanged('');
 
 		try {
 			const authtoken = sessionStorage.getItem('auth-token');
@@ -82,28 +93,50 @@ const Profile = () => {
 				headers: {
 					'Authorization': `Bearer ${authtoken}`,
 					'Content-Type': 'application/json',
-					'Email': email,
+					'email': email,
 				},
 				body: JSON.stringify(payload),
 			});
 
 			if (response.ok) {
-				setUserName(updatedDetails.name);
-				sessionStorage.setItem('name', updatedDetails.name);
-				setUserDetails(updatedDetails);
+                const jsonData = await response.json();
+				
+                if (jsonData.user) {
+                    if (jsonData.user.firstName) {
+                        sessionStorage.setItem('firstName', jsonData.user.firstName);
+                    }
+                    if (jsonData.user.lastName) {
+                        sessionStorage.setItem('lastName', jsonData.user.lastName);
+                    }
+                    const fullName = `${jsonData.user.firstName || ''} ${jsonData.user.lastName || ''}`.trim();
+                    sessionStorage.setItem('name', fullName);
+                    setUserName(fullName);
+
+                    const updatedUserData = {
+                        firstName: jsonData.user.firstName || '',
+                        lastName: jsonData.user.lastName || '',
+                        name: fullName,
+                        email: jsonData.user.email || email
+                    };
+
+                    setUserDetails(updatedUserData);
+                    setUpdatedDetails(updatedUserData);
+                }
+				
 				setEditMode(false);
 				// Display success message to the user
-				setChanged('Name Changed Successfully!');
+				setChanged('Profile updated successfully!');
 				setTimeout(() => {
 					setChanged('');
-					navigate('/');
-				}, 1000);
+				}, 3000);
 
 			} else {
 				// Handle error case
 				throw new Error('Failed to update profile');
 			}
 		} catch (error) {
+            setChanged('Failed to update profile');
+            console.log('error: ', error);
 			console.error(error);
 			// Handle error case
 		}
@@ -122,18 +155,27 @@ const Profile = () => {
 											<Form.Label>Email</Form.Label>
 											<Form.Control 
 												type="email" 
-												value={userDetails.email} 
+												value={updatedDetails.email || ''} 
 												disabled
 												name="email"
 											/>
 										</Form.Group>
-										<Form.Group controlId="name">
+										<Form.Group controlId="firstName">
 											<Form.Label>First name</Form.Label>
 											<Form.Control 
 												type="text"
-												value={updatedDetails.name}
+												value={updatedDetails.firstName || ''}
 												onChange={handleInputChange}
-												name="name"
+												name="firstName"
+											/>
+										</Form.Group>
+										<Form.Group controlId="lastName">
+											<Form.Label>Last name</Form.Label>
+											<Form.Control
+												type="text"
+												value={updatedDetails.lastName || ''}
+												onChange={handleInputChange}
+												name="lastName"
 											/>
 										</Form.Group>
 										<Stack direction="horizontal" gap={2} className="mt-3">
@@ -144,22 +186,22 @@ const Profile = () => {
 
 								</Form>
 							) : (
-								<Stack direction="vertical" >
-									<h3>Hi, {userDetails.name}</h3>
+								<Stack direction="vertical">
+									<h3>Hi, {userDetails.name || `${userDetails.firstName || ''} ${userDetails.lastName || ''}`.trim()}</h3>
 									<Card.Text>Manage your GiftLink profile details.</Card.Text>
 									<Card.Text><b>Email:</b> {userDetails.email}</Card.Text>
+									<Card.Text><b>First name:</b> {userDetails.firstName}</Card.Text>
+									<Card.Text><b>Last name:</b> {userDetails.lastName}</Card.Text>
 									<Stack direction="horizontal" gap={2} className="mt-3">
 										<Button variant="primary" onClick={handleEdit}>Edit</Button>
 									</Stack>
 									<Fade in={changed}>
 										<div>
 											{changed && (
-												<Alert variant="success">{changed}</Alert>
+												<Alert variant="success" className="mb-0 mt-3">{changed}</Alert>
 											)}
 										</div>
 									</Fade>
-									
-									{/* <span style={{ color: 'green', height: '.5cm', display: 'block', fontStyle: 'italic', fontSize: '12px' }}>{changed}</span> */}
 								</Stack>
 							)}
 						</Card.Body>
