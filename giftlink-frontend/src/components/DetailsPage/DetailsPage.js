@@ -8,6 +8,7 @@ import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
+import Table from 'react-bootstrap/Table';
 
 function DetailsPage() {
     const navigate = useNavigate();
@@ -91,50 +92,65 @@ function DetailsPage() {
     return (
         <Container>
             <Row>
-                <Col className="my-5">
+                <Col xs={12} md={{ span: 8, offset: 2 }} className="mt-4">
                     <Button variant="secondary" onClick={handleBackClick}>Back</Button>
                 </Col>
             </Row>
 
-            <div className="mt-5">
-                <Card className="product-details-card">
-                    <Card.Header>{gift.name}</Card.Header>
-                    <Card.Body>
-                        <Card.Img
-                            variant="top"
-                            src={
-                                gift.image ? (
-                                    // Task 5: Display gift image
-                                    // insert code here
-                                    gift.image
-                                ) : (
-                                    "holder.js/100px180?text=No image available"
-                                )
-                            }
-                            alt={gift.name}
-                            className="object-fit-cover image-placeholder"
-                        />
-                        {/* Task 6: Display gift details */}
-                        <Card.Text><strong>Category:</strong> {gift.category}</Card.Text>
-                        <Card.Text><strong>Condition:</strong> {gift.condition}</Card.Text>
-                        <Card.Text><strong>Date Added:</strong> {formatDate(gift.date_added)}</Card.Text>
-                        <Card.Text><strong>Age (Years):</strong> {gift.age_years}</Card.Text>
-                        <Card.Text><strong>Description:</strong> {gift.description}</Card.Text>
-                    </Card.Body>
-                </Card>
-                <Stack className="comments-section mt-4">
-                    <h3 className="mb-3">Comments</h3>
-                    {/* Task 7: Render comments section by using the map function to go through all the comments */}
-                    {comments.map((comment, index) => (
-                        <Card key={index} bg="info"className="mb-3">
-                            <Card.Body>
-                                <Card.Text className="comment-author"><strong>{comment.author}:</strong></Card.Text>
-                                <Card.Text className="comment-text">{comment.comment}</Card.Text>
-                            </Card.Body>
-                        </Card>
-                    ))}
-                </Stack>
-            </div>
+            <Row>
+                <Col xs={12} md={{ span: 8, offset: 2 }} className="mt-4">
+                    <Card className="product-details-card">
+                        <Card.Header>Added by {gift.posted_by} on {formatDate(gift.date_added)}</Card.Header>
+                        <Card.Body>
+                            <Card.Img
+                                variant="top"
+                                src={
+                                    gift.image ? (
+                                        // Task 5: Display gift image
+                                        // insert code here
+                                        gift.image
+                                    ) : (
+                                        "holder.js/100px180?text=No image available"
+                                    )
+                                }
+                                alt={gift.name}
+                                className="object-fit-cover image-placeholder"
+                            />
+                            <Card.Title className="mt-2">{gift.name}</Card.Title>
+                            <Table striped bordered size="sm">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Condition</th>
+                                        <th>Age</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{gift.category}</td>
+                                        <td>{gift.condition}</td>
+                                        <td>{gift.age_years} years</td>
+                                        <td>{gift.description}</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Card>
+                    <Stack className="comments-section my-4">
+                        <h3 className="mb-3">Comments</h3>
+                        {/* Task 7: Render comments section by using the map function to go through all the comments */}
+                        {comments.map((comment, index) => (
+                            <Card key={index} bg="light"className="mb-3">
+                                <Card.Body>
+                                    <Card.Text className="comment-author"><strong>{comment.author}:</strong></Card.Text>
+                                    <Card.Text className="comment-text">{comment.comment}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                        ))}
+                    </Stack>
+                </Col>
+            </Row>
         </Container >
     );
 }
