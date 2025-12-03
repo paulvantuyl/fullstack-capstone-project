@@ -23,14 +23,14 @@ const Profile = () => {
 	const location = useLocation();
 
 	useEffect(() => {
-	// Check for authentication and redirect if not authenticated
-	const authtoken = sessionStorage.getItem('auth-token');
-	
-	if (!authtoken) {
-		navigate('/app/login', { state: { from: location.pathname } });
-	} else {
-		fetchUserProfile();
-	}
+        // Check for authentication and redirect if not authenticated
+        const authtoken = sessionStorage.getItem('auth-token');
+        
+        if (!authtoken) {
+            navigate('/app/login', { state: { from: location.pathname } });
+        } else {
+            fetchUserProfile();
+        }
 	}, [navigate, location.pathname]);
 
 	const fetchUserProfile = async () => {
@@ -56,11 +56,8 @@ const Profile = () => {
 
             setUserDetails(storedUserDetails);
             setUpdatedDetails(storedUserDetails);
-			// if (firstName || lastName || name || authtoken) {
-			// }
 		} catch (error) {
 			console.error(error);
-			// Handle error case
 		}
 	};
 
@@ -131,14 +128,12 @@ const Profile = () => {
 				}, 3000);
 
 			} else {
-				// Handle error case
-				throw new Error('Failed to update profile');
+                const errorData = await response.json();
+                setChanged(errorData.error || 'Failed to update profile');
 			}
 		} catch (error) {
-            setChanged('Failed to update profile');
-            console.log('error: ', error);
+            setChanged(error.message);
 			console.error(error);
-			// Handle error case
 		}
 	};
 
@@ -208,7 +203,6 @@ const Profile = () => {
 					</Card>
 				</Col>
 			</Row>
-			
 		</Container>
 	);
 };
