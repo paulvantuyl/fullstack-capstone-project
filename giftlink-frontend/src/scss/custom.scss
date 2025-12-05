@@ -1,8 +1,16 @@
-@import '~bootstrap/scss/bootstrap';
+$brand-primary: #6f6bae;
+$brand-secondary: #C9B59C;
+$brand-emphasis: #524f90;
 
 // Map overrides
 $theme-colors: (
-    'primary': #6f6bae,
-    'secondary': #C9B59C,
-    'body-bg': #F9F8F6,
+    'primary': $brand-primary,
+    'secondary': $brand-secondary,
 );
+
+$body-bg: #F9F8F6;
+
+$navbar-light-active-color: $brand-primary;
+$navbar-light-brand-color: $brand-emphasis;
+
+@import '~bootstrap/scss/bootstrap';
