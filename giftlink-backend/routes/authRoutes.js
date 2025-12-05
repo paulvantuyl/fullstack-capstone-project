@@ -1,5 +1,7 @@
+/* jshint esversion: 8 */
+
 const express = require('express');
-const bcryptjs   = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const connectToDatabase = require('../models/db');
