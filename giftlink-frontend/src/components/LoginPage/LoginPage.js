@@ -46,7 +46,6 @@ function LoginPage() {
             });
 
             const jsonData = await response.json();
-            console.log('jsonData: ', jsonData);
             console.log('error: ', jsonData.error);
 
             if (jsonData.authtoken) {
