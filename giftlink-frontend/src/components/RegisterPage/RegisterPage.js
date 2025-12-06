@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { urlConfig } from '../../config.js';
 import { useAppContext } from '../../context/AuthContext.js';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 
 import './RegisterPage.css';
 import Card from 'react-bootstrap/Card';
@@ -98,7 +98,7 @@ function RegisterPage() {
                                         <Stack direction="horizontal" gap={2} className="mt-3">
                                             <Button variant="primary" type="submit">Register</Button>
                                             <div className="ms-auto align-middle">
-                                                <p className="mb-0">Already a member? <a href="/app/login">Login</a></p>
+                                                <p className="mb-0">Already a member? <Nav.Link as={NavLink} to="/app/login">Login</Nav.Link></p>
                                             </div>
                                         </Stack>
                                     </Stack>

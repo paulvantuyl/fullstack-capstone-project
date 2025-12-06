@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { urlConfig } from '../../config';
 import { useAppContext } from '../../context/AuthContext';
 
@@ -108,7 +108,7 @@ function LoginPage() {
                                         <Stack direction="horizontal" gap={2} className="mt-3">
                                             <Button variant="primary" type="submit">Log in</Button>
                                             <div className="ms-auto align-middle">
-                                                <p className="mb-0">Not a member yet? <a href="/app/register">Register</a></p>
+                                                <p className="mb-0">Not a member yet? <Nav.Link as={NavLink} to="/app/register">Register</Nav.Link></p>
                                             </div>
                                         </Stack>
                                     </Stack>
