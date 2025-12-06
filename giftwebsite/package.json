@@ -1,0 +1,27 @@
+{
+  "name": "giftwebsite",
+  "version": "1.0.0",
+  "description": "A place to exchange gifts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulvantuyl/fullstack-capstone-project.git"
+  },
+  "keywords": [
+    "Node",
+    "React"
+  ],
+  "author": "Paul Van Tuyl",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/paulvantuyl/fullstack-capstone-project/issues"
+  },
+  "homepage": "https://github.com/paulvantuyl/fullstack-capstone-project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1"
+  }
+}
